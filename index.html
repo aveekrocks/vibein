@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="GameLoop - A modern Snake & Ladders game with music player">
+    <title>GameLoop - Snake & Ladders</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+    <div class="neon-border"></div>
+    <div class="music-player">
+        <button id="toggle-music" class="cyber-button music-toggle" aria-label="Toggle music player">
+            <i class="fas fa-music"></i>
+        </button>
+        <div id="music-panel" class="music-panel">
+            <div class="music-header">
+                <h3>GameLoop Music</h3>
+                <button class="close-music" aria-label="Close music player"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="music-search">
+                <input type="text" id="music-search" placeholder="Search for music..." aria-label="Search music">
+                <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="music-disc-container">
+                <div class="music-disc">
+                    <div class="disc-inner">
+                        <i class="fas fa-music"></i>
+                    </div>
+                </div>
+                <div class="music-info">
+                    <div class="now-playing">
+                        <span id="current-song">No song playing</span>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="control-btn" id="prev-song" aria-label="Previous song"><i class="fas fa-backward"></i></button>
+                        <button class="control-btn" id="play-pause" aria-label="Play or pause"><i class="fas fa-play"></i></button>
+                        <button class="control-btn" id="next-song" aria-label="Next song"><i class="fas fa-forward"></i></button>
+                    </div>
+                    <div class="volume-control">
+                        <i class="fas fa-volume-up"></i>
+                        <input type="range" id="volume-slider" min="0" max="100" value="50" aria-label="Volume control">
+                    </div>
+                </div>
+            </div>
+            <div class="music-list" id="music-list" role="list">
+                <!-- Music items will be added here dynamically -->
+            </div>
+            <div id="youtube-player" class="youtube-player"></div>
+        </div>
+    </div>
+    <div class="container">
+        <h1 class="cyber-title">GameLoop</h1>
+        <h2 class="game-subtitle">Snake & Ladders</h2>
+        <button id="toggle-rules" class="cyber-button rules-button" aria-label="Toggle game rules">Game Rules</button>
+        <div id="rules-panel" class="rules-panel">
+            <h2>How to Play</h2>
+            <ul>
+                <li>You play against the computer</li>
+                <li>Roll the dice to move forward</li>
+                <li>If you land on a <span class="snake-text">snake</span>, you move down</li>
+                <li>If you land on a <span class="ladder-text">ladder</span>, you move up</li>
+                <li>First player to reach or exceed position 100 wins!</li>
+                <li>Use the "Reset Game" button to start a new game</li>
+            </ul>
+        </div>
+        <div class="game-info">
+            <div class="player-info">
+                <div class="player player1 cyber-card">You: <span id="player1-position">1</span></div>
+                <div class="player bot cyber-card">Bot: <span id="player2-position">1</span></div>
+            </div>
+            <div class="dice-section">
+                <div class="dice-container">
+                    <div id="dice" class="dice" role="img" aria-label="Dice">
+                        <div class="dice-face front">1</div>
+                        <div class="dice-face back">2</div>
+                        <div class="dice-face right">3</div>
+                        <div class="dice-face left">4</div>
+                        <div class="dice-face top">5</div>
+                        <div class="dice-face bottom">6</div>
+                    </div>
+                </div>
+                <button id="roll-dice" class="cyber-button" aria-label="Roll dice">Roll</button>
+            </div>
+        </div>
+        <div class="game-board" id="game-board" role="grid" aria-label="Game board"></div>
+        <div class="controls">
+            <button id="reset-game" class="cyber-button" aria-label="Reset game">Reset Game</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

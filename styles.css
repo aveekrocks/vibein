@@ -1,0 +1,631 @@
+:root {
+    --primary-color: #00ff9d;
+    --secondary-color: #ff3c00;
+    --background-color: #000;
+    --text-color: #fff;
+    --neon-glow: 0 0 10px rgba(0, 255, 157, 0.5);
+    --player-color: #00ff9d;
+    --bot-color: #ff3c00;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.neon-border {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid var(--primary-color);
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: var(--neon-glow);
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.cyber-title {
+    font-size: clamp(2rem, 5vw, 4rem);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+}
+
+.game-subtitle {
+    font-size: clamp(1rem, 3vw, 2rem);
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+}
+
+.game-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.player-info {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.player {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+}
+
+.player1 {
+    background-color: var(--player-color);
+    color: #000;
+    text-shadow: none;
+}
+
+.bot {
+    background-color: var(--bot-color);
+    color: #000;
+    text-shadow: none;
+}
+
+.dice-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dice-container {
+    perspective: 1000px;
+    width: clamp(60px, 15vw, 100px);
+    height: clamp(60px, 15vw, 100px);
+}
+
+.dice {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.dice-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 20, 20, 0.95);
+    border: 2px solid var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+}
+
+.dice-face::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    border-radius: 10px;
+}
+
+.dice-face.front { transform: translateZ(50px); }
+.dice-face.back { transform: translateZ(-50px) rotateY(180deg); }
+.dice-face.right { transform: translateX(50px) rotateY(90deg); }
+.dice-face.left { transform: translateX(-50px) rotateY(-90deg); }
+.dice-face.top { transform: translateY(-50px) rotateX(90deg); }
+.dice-face.bottom { transform: translateY(50px) rotateX(-90deg); }
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 2px;
+    margin: 1rem auto;
+    max-width: 100%;
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.cell {
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(0.5rem, 2vw, 1rem);
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cell.snake {
+    background: rgba(255, 60, 0, 0.2);
+    border-color: var(--secondary-color);
+}
+
+.cell.ladder {
+    background: rgba(0, 255, 157, 0.2);
+    border-color: var(--primary-color);
+}
+
+.cell.player1-token {
+    background: var(--player-color);
+    color: #000;
+    font-weight: bold;
+}
+
+.cell.player2-token {
+    background: var(--bot-color);
+    color: #000;
+    font-weight: bold;
+}
+
+.cyber-button {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.cyber-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.cyber-button:hover::before {
+    left: 100%;
+}
+
+.cyber-button:hover {
+    background: var(--primary-color);
+    color: #000;
+    box-shadow: 0 0 20px var(--primary-color);
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.rules-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(0, 0, 0, 0.95);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+    max-width: 90%;
+    width: 500px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.rules-panel.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.rules-panel h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+}
+
+.rules-panel ul {
+    list-style: none;
+    padding: 0;
+}
+
+.rules-panel li {
+    margin-bottom: 0.5rem;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+}
+
+.snake-text {
+    color: var(--secondary-color);
+}
+
+.ladder-text {
+    color: var(--primary-color);
+}
+
+/* Music Player Styles */
+.music-player {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+}
+
+.music-toggle {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.music-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+}
+
+.music-panel.show {
+    display: flex;
+}
+
+.music-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.music-header h3 {
+    color: var(--primary-color);
+    font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.close-music {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.music-search {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.music-search input {
+    flex: 1;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 5px;
+}
+
+.search-btn {
+    background: none;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.music-disc-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.music-disc {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: rotate 20s linear infinite;
+    animation-play-state: paused;
+}
+
+.music-disc.playing {
+    animation-play-state: running;
+}
+
+.disc-inner {
+    width: 50px;
+    height: 50px;
+    background: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.music-info {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.now-playing {
+    margin-bottom: 1rem;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.control-btn {
+    background: none;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: var(--primary-color);
+    color: #000;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.volume-control input[type="range"] {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.music-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+.music-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.music-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.music-item.playing {
+    background: rgba(0, 255, 157, 0.2);
+    border-left: 3px solid var(--primary-color);
+}
+
+.track-thumbnail {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.youtube-player {
+    display: none;
+}
+
+/* Animations */
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes winPulse {
+    0% { box-shadow: 0 0 5px var(--primary-color); }
+    50% { box-shadow: 0 0 20px var(--primary-color); }
+    100% { box-shadow: 0 0 5px var(--primary-color); }
+}
+
+@keyframes snakePulse {
+    0% { box-shadow: 0 0 5px var(--secondary-color); }
+    50% { box-shadow: 0 0 20px var(--secondary-color); }
+    100% { box-shadow: 0 0 5px var(--secondary-color); }
+}
+
+@keyframes ladderPulse {
+    0% { box-shadow: 0 0 5px var(--primary-color); }
+    50% { box-shadow: 0 0 20px var(--primary-color); }
+    100% { box-shadow: 0 0 5px var(--primary-color); }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        padding: 0.5rem;
+    }
+
+    .game-board {
+        gap: 1px;
+    }
+
+    .cell {
+        font-size: 0.8rem;
+    }
+
+    .music-disc {
+        width: 150px;
+        height: 150px;
+    }
+
+    .disc-inner {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .control-btn {
+        width: 35px;
+        height: 35px;
+    }
+
+    .rules-panel {
+        padding: 1rem;
+        width: 95%;
+    }
+
+    .music-panel {
+        padding: 0.5rem;
+    }
+
+    .music-search {
+        padding: 0.5rem;
+    }
+
+    .music-disc-container {
+        padding: 1rem;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+    .cyber-button:active {
+        background: var(--primary-color);
+        color: #000;
+    }
+
+    .control-btn:active {
+        background: var(--primary-color);
+        color: #000;
+    }
+
+    .music-item:active {
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* High Contrast Mode Support */
+@media (forced-colors: active) {
+    .cyber-button {
+        border: 2px solid ButtonText;
+        color: ButtonText;
+    }
+
+    .cyber-button:hover {
+        background: ButtonText;
+        color: Canvas;
+    }
+
+    .cell {
+        border: 1px solid ButtonText;
+    }
+
+    .cell.player1-token,
+    .cell.player2-token {
+        border: 2px solid ButtonText;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .dice {
+        transition: none;
+    }
+
+    .music-disc {
+        animation: none;
+    }
+
+    .music-disc.playing {
+        animation: none;
+    }
+} 
